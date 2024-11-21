@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header id="header"></header>
+    <main>
+        <h1>System Settings</h1>
+        <div id="settings-container"></div>
+        <form id="settings-form" style="margin-top: 20px;">
+            <label for="key">Setting Key:</label>
+            <input type="text" id="key" name="key" required>
+            <label for="value">Setting Value:</label>
+            <input type="text" id="value" name="value" required>
+            <button type="submit">Update Setting</button>
+        </form>
+    </main>
+    <footer>&copy; 2024 System Settings</footer>
+    <script src="../js/scripts.js"></script>
+    <script>
+        loadHeader();
+
+        async function fetchSettings() {
+            const container = document.getElementById('settings-container');
+            try {
+                const response = await fetch(`${API_URL}/settings`);
+                const settings = await response.json();
+                container.innerHTML = settings.map(setting => `
+                    <div>
+                        <strong>${setting.key}:</strong> ${setting.value}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error fetching settings:', error);
+            }
+        }
+
+        document.getElementById('settings-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            try {
+                const response = await fetch(`${API_URL}/settings`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+                if (response.ok) {
+                    alert('Setting updated successfully.');
+                    fetchSettings();
+                }
+            } catch (error) {
+                console.error('Error updating setting:', error);
+            }
+        });
+
+        fetchSettings();
+    </script>
+</body>
+</html>

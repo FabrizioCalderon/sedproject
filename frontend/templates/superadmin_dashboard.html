@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superadmin Dashboard</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        header {
+            background-color: #6c757d;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #343a40;
+            text-align: center;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        .button-group button {
+            background-color: #343a40;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin: 0.5rem;
+        }
+        .button-group button:hover {
+            background-color: #495057;
+        }
+        footer {
+            background-color: #6c757d;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        .stats {
+            margin-top: 2rem;
+            background: #f1f1f1;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header id="header"></header>
+    <main>
+        <h1>Superadmin Dashboard</h1>
+        <p>Welcome to the Superadmin Dashboard! Manage roles, configure settings, and view system statistics.</p>
+        
+        <div class="button-group">
+            <button onclick="manageRoles()">Manage Roles</button>
+            <button onclick="systemSettings()">System Settings</button>
+            <button onclick="viewStats()">View Statistics</button>
+        </div>
+
+        <div id="stats-container" class="stats" style="display: none;">
+            <h2>System Statistics</h2>
+            <p>Total Users: <span id="total-users">Loading...</span></p>
+            <p>Total Posts: <span id="total-posts">Loading...</span></p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Superadmin Dashboard. All rights reserved.</p>
+    </footer>
+    <script src="../js/scripts.js"></script>
+    <script>
+        loadHeader();
+
+        function manageRoles() {
+            alert("Redirecting to Manage Roles page...");
+            window.location.href = "manage_roles.html"; // Asegúrate de crear esta página
+        }
+
+        function systemSettings() {
+            alert("Redirecting to System Settings page...");
+            window.location.href = "system_settings.html"; // Asegúrate de crear esta página
+        }
+
+        async function viewStats() {
+            const statsContainer = document.getElementById('stats-container');
+            statsContainer.style.display = 'block';
+
+            try {
+                const response = await fetch(`${API_URL}/posts`);
+                const posts = await response.json();
+                document.getElementById('total-posts').innerText = posts.length;
+
+                const userResponse = await fetch(`${API_URL}/users`); // Endpoint para obtener usuarios
+                const users = await userResponse.json();
+                document.getElementById('total-users').innerText = users.length;
+            } catch (error) {
+                console.error("Error fetching stats:", error);
+                document.getElementById('total-users').innerText = "Error";
+                document.getElementById('total-posts').innerText = "Error";
+            }
+        }
+    </script>
+</body>
+</html>
