@@ -8,6 +8,7 @@ const multer = require('multer');
 
 const PORT = 3000;
 const SECRET_KEY = "hola";
+
 let sessions = {}; // Manejo básico de sesiones
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {

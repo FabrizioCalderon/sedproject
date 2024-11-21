@@ -15,9 +15,9 @@
         <h1>Login</h1>
         <form id="login-form">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <input type="text" id="username" name="username" required minlength="5" maxlength="20" pattern="^[a-zA-Z0-9_]+$" title="Solo se permiten letras, números y guiones bajos.">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required minlength="8" maxlength="20" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+" >
             <button type="submit">Login</button>
         </form>
     </main>
